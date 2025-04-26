@@ -2,6 +2,7 @@ using System;
 using CoCall.API.Hubs;
 using CoCall.API.Services;
 using CoCall.Data;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -20,6 +21,18 @@ builder.Services.AddDbContext<CoCallDbContext>(options =>
 builder.Services.AddHostedService<TextMessageCleanupService>();
 builder.Services.AddHostedService<CallExpiryService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .SetIsOriginAllowed(_ => true); // Accept any origin for now
+    });
+});
+
 builder.Services.AddSignalR();
 
 var app = builder.Build();
@@ -36,9 +49,9 @@ app.MapHub<TextChatHub>("/hubs/textchat");
 app.MapHub<VideoCallHub>("/hubs/videocall");
 app.MapHub<NotificationHub>("/hubs/notification");
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
 app.MapControllers();
 
