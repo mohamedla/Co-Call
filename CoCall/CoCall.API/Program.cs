@@ -16,6 +16,7 @@ builder.Services.AddDbContext<CoCallDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CoCall")));
 
 builder.Services.AddHostedService<TextMessageCleanupService>();
+builder.Services.AddHostedService<CallExpiryService>();
 
 builder.Services.AddSignalR();
 
