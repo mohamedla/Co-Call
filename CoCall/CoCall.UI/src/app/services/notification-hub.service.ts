@@ -20,7 +20,7 @@ export class NotificationHubService {
 
       try {
         await this.connection.start();
-        console.log('TextChatHub connection started');
+        console.log('Notification connection started');
       } catch (err) {
         console.error('Error starting TextChatHub connection:', err);
       }
