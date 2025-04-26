@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/CoCall/.vs/CoCall
+/CoCall/CoCall.API/obj
+/CoCall/CoCall.Data/obj
+/CoCall/CoCall.Business/obj

@@ -1,0 +1,6 @@
+@CoCall.API_HostAddress = http://localhost:5286
+
+GET {{CoCall.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
