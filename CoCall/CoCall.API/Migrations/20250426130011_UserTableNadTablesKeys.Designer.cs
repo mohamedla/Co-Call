@@ -4,6 +4,7 @@ using CoCall.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoCall.API.Migrations
 {
     [DbContext(typeof(CoCallDbContext))]
-    partial class CoCallDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250426130011_UserTableNadTablesKeys")]
+    partial class UserTableNadTablesKeys
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
