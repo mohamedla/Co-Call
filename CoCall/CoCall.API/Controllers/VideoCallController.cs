@@ -22,6 +22,7 @@ namespace CoCall.API.Controllers
                 CallerId = callerId,
                 CalleeId = calleeId,
                 CreatedAt = DateTime.UtcNow,
+                ExpireAt = DateTime.UtcNow.AddHours(1),
                 IsActive = true
             };
 
