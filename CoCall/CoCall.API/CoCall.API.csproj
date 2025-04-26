@@ -15,11 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Hubs\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CoCall.Business\CoCall.Business.csproj" />
     <ProjectReference Include="..\CoCall.Data\CoCall.Data.csproj" />
   </ItemGroup>
