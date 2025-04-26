@@ -6,3 +6,5 @@
 /CoCall/CoCall.API/obj
 /CoCall/CoCall.Data/obj
 /CoCall/CoCall.Business/obj
+/CoCall/CoCall.Business/bin/Debug/net9.0
+/CoCall/CoCall.Data/bin/Debug/net9.0
