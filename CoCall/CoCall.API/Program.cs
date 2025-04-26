@@ -3,6 +3,8 @@ using CoCall.API.Hubs;
 using CoCall.API.Services;
 using CoCall.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<CoCallDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("CoCall")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("CoCall") ?? throw new InvalidOperationException("Can't found CoCall Connection String While Working With Repository."), b => b.MigrationsAssembly("CoCall.API")));
 
 builder.Services.AddHostedService<TextMessageCleanupService>();
 builder.Services.AddHostedService<CallExpiryService>();
