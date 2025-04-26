@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoCall.Data", "CoCall.Data\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoCall.Business", "CoCall.Business\CoCall.Business.csproj", "{88242589-8448-4F5B-B841-E2EDD71F9E82}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "CoCall.UI", "CoCall.UI\CoCall.UI.esproj", "{140F8E3B-1CD1-D822-215C-409AA7EF758B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,12 @@ Global
 		{88242589-8448-4F5B-B841-E2EDD71F9E82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88242589-8448-4F5B-B841-E2EDD71F9E82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88242589-8448-4F5B-B841-E2EDD71F9E82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{140F8E3B-1CD1-D822-215C-409AA7EF758B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{140F8E3B-1CD1-D822-215C-409AA7EF758B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{140F8E3B-1CD1-D822-215C-409AA7EF758B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{140F8E3B-1CD1-D822-215C-409AA7EF758B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{140F8E3B-1CD1-D822-215C-409AA7EF758B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{140F8E3B-1CD1-D822-215C-409AA7EF758B}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
