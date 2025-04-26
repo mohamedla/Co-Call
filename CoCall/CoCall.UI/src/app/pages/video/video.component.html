@@ -1,0 +1,25 @@
+<div class="video-page">
+  <div class="small-side">
+    <mat-form-field appearance="outline" class="search">
+      <mat-label>Search user</mat-label>
+      <input matInput (input)="onSearch($event)" />
+    </mat-form-field>
+    <mat-list>
+      <mat-list-item *ngFor="let call of activeCalls" (click)="startCall(call)">
+        {{ call.name }}
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <div class="large-side" *ngIf="activeCall">
+    <div class="media-controls">
+      <button mat-raised-button color="primary" (click)="toggleMic()">Mic</button>
+      <button mat-raised-button color="primary" (click)="toggleSpeaker()">Speaker</button>
+      <button mat-raised-button color="primary" (click)="toggleCamera()">Camera</button>
+      <button mat-raised-button color="warn" (click)="hangUp()">Hang Up</button>
+    </div>
+    <div class="video-container">
+      <div class="my-video">My Camera</div>
+      <div class="other-video">Other Participant</div>
+    </div>
+  </div>
+</div>

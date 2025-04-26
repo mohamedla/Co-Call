@@ -1,0 +1,11 @@
+<mat-toolbar color="primary">
+  <mat-tab-group>
+    <mat-tab label="Chat" routerLink="/chat"></mat-tab>
+    <mat-tab label="Video" routerLink="/video"></mat-tab>
+  </mat-tab-group>
+  <span class="spacer"></span>
+  <button mat-icon-button (click)="showNotifications()">
+    <mat-icon>notifications</mat-icon>
+    <span *ngIf="notificationCount > 0" class="badge">{{ notificationCount }}</span>
+  </button>
+</mat-toolbar>

@@ -1,0 +1,31 @@
+.chat-page {
+  display: flex;
+  height: 100%;
+}
+
+.small-side {
+  width: 30%;
+  border-right: 1px solid #ddd;
+  padding: 10px;
+}
+
+.large-side {
+  width: 70%;
+  padding: 10px;
+}
+
+.chat-history {
+  height: calc(100% - 50px);
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.chat-input {
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  flex: 1;
+  margin-right: 10px;
+}

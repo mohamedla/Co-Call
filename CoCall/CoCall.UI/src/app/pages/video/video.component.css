@@ -1,0 +1,37 @@
+.video-page {
+  display: flex;
+  height: 100%;
+}
+
+.small-side {
+  width: 30%;
+  border-right: 1px solid #ddd;
+  padding: 10px;
+}
+
+.large-side {
+  width: 70%;
+  padding: 10px;
+}
+
+.media-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.video-container {
+  display: flex;
+  height: calc(100% - 50px);
+}
+
+.my-video {
+  width: 30%;
+  background-color: #ddd;
+  margin-right: 10px;
+}
+
+.other-video {
+  flex: 1;
+  background-color: #bbb;
+}
