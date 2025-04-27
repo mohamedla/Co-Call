@@ -1,14 +1,157 @@
-.spacer {
-  flex: 1 1 auto;
+.app-header {
+  background-color: #DEDEDE;
+  color: #313732;
+  padding: 0 16px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.badge {
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.logo mat-icon {
+  color: #f26101;
+}
+
+.nav-tabs {
+  background-color: transparent;
+}
+
+.nav-tabs ::ng-deep .mat-tab-link {
+  color: #313732;
+  opacity: 0.7;
+  min-width: 100px;
+}
+
+.nav-tabs ::ng-deep .mat-tab-link.active {
+  opacity: 1;
+  color: #f26101;
+}
+
+.nav-tabs ::ng-deep .mat-ink-bar {
+  background-color: #f26101;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.notification-container {
+  position: relative;
+}
+
+.notification-btn {
+  color: #313732;
+}
+
+.notification-badge {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  background-color: red;
-  color: white;
+  top: 0;
+  right: 0;
+  background-color: #f26101;
+  color: #DEDEDE;
   border-radius: 50%;
-  padding: 2px 6px;
+  width: 18px;
+  height: 18px;
   font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification-panel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 360px;
+  background-color: #313732;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-top: 8px;
+  z-index: 1000;
+}
+
+.notification-header {
+  padding: 16px;
+  border-bottom: 1px solid rgba(222, 222, 222, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notification-header h3 {
+  margin: 0;
+  color: #DEDEDE;
+  font-size: 1.1rem;
+}
+
+.notification-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  display: flex;
+  padding: 12px 16px;
+  gap: 12px;
+  border-bottom: 1px solid rgba(222, 222, 222, 0.05);
+  transition: background-color 0.2s;
+}
+
+.notification-item:hover {
+  background-color: rgba(242, 97, 1, 0.1);
+}
+
+.notification-item.unread {
+  background-color: rgba(242, 97, 1, 0.2);
+}
+
+.notification-avatar {
+  min-width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #DEDEDE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #313732;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-text {
+  color: #DEDEDE;
+  margin-bottom: 4px;
+  max-width: 200px;
+}
+
+.notification-time {
+  font-size: 0.8rem;
+  color: #DEDEDE;
+  opacity: 0.8;
+}
+
+.notification-item button {
+  color: #f26101;
 }

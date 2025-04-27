@@ -1,35 +1,79 @@
-<div class="video-page">
-  <div class="small-side">
-    <mat-form-field appearance="outline" class="search">
-      <mat-label>Search user</mat-label>
-      <input matInput (input)="onSearch($event)" />
-    </mat-form-field>
-    <mat-list>
-      <mat-list-item *ngFor="let call of activeCalls" (click)="startCall(call)">
-        {{ call.name }}
-      </mat-list-item>
-    </mat-list>
-  </div>
-  <div class="large-side" *ngIf="activeCall">
-    <div class="video-container">
-      <div class="remote-video-container">
-        <div class="remote-video">Other Participant</div>
+<div class="video-container">
+  <!-- Left sidebar with contacts -->
+  <div class="video-sidebar">
+    <div class="sidebar-header">
+      <div class="user-profile">
+        <div class="avatar">
+          <mat-icon>person</mat-icon>
+        </div>
+        <span class="username">My Profile</span>
       </div>
-      <div class="local-video">My Camera</div>
     </div>
 
-    <div class="media-controls">
-      <button [class.active]="!isMicMuted" (click)="toggleMic()" title="Toggle Microphone">
-        <i class="material-icons">{{ isMicMuted ? 'mic_off' : 'mic' }}</i>
+    <div class="search-container">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search contacts</mat-label>
+        <input matInput (input)="onSearch($event)" />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="contacts-list">
+      <div class="contact-item" *ngFor="let call of activeCalls" (click)="startCall(call)" [class.active]="activeCall?.id === call.id">
+        <div class="contact-avatar">
+          <mat-icon>person</mat-icon>
+        </div>
+        <div class="contact-info">
+          <div class="contact-name">{{ call.name }}</div>
+          <div class="contact-status">Available for video call</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main video area -->
+  <div class="video-main" *ngIf="activeCall">
+    <div class="video-header">
+      <div class="call-info">
+        <div class="call-avatar">
+          <mat-icon>person</mat-icon>
+        </div>
+        <div class="call-details">
+          <div class="call-name">{{ activeCall.name }}</div>
+          <div class="call-status">In call</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-content">
+      <div class="remote-video-container">
+        <div class="remote-video">
+          <div class="video-placeholder">
+            <mat-icon>videocam</mat-icon>
+            <span>Remote Video</span>
+          </div>
+        </div>
+      </div>
+      <div class="local-video">
+        <div class="video-placeholder">
+          <mat-icon>videocam</mat-icon>
+          <span>My Camera</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="call-controls">
+      <button class="control-btn" [class.active]="!isMicMuted" (click)="toggleMic()" title="Toggle Microphone">
+        <mat-icon>{{ isMicMuted ? 'mic_off' : 'mic' }}</mat-icon>
       </button>
-      <button [class.active]="!isAudioMuted"  (click)="toggleSpeaker()" title="Toggle Audio Output">
-        <i class="material-icons">{{ isAudioMuted ? 'volume_off' : 'volume_up' }}</i>
+      <button class="control-btn" [class.active]="!isAudioMuted" (click)="toggleSpeaker()" title="Toggle Audio Output">
+        <mat-icon>{{ isAudioMuted ? 'volume_off' : 'volume_up' }}</mat-icon>
       </button>
-      <button [class.active]="!isCameraOff" (click)="toggleCamera()" title="Toggle Camera">
-        <i class="material-icons">{{ isCameraOff ? 'videocam_off' : 'videocam' }}</i>
+      <button class="control-btn" [class.active]="!isCameraOff" (click)="toggleCamera()" title="Toggle Camera">
+        <mat-icon>{{ isCameraOff ? 'videocam_off' : 'videocam' }}</mat-icon>
       </button>
-      <button (click)="hangUp()">
-        <i class="material-icons">call_end</i>
+      <button class="control-btn end-call" (click)="hangUp()" title="End Call">
+        <mat-icon>call_end</mat-icon>
       </button>
     </div>
   </div>

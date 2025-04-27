@@ -1,20 +1,208 @@
-.chat-page {
+.chat-container {
   display: flex;
-  height: 100%;
+  height: 100vh;
+  background-color: #313732;
 }
 
-.chat-history {
-  height: calc(100% - 50px);
-  overflow-y: auto;
-  margin-bottom: 10px;
+.chat-sidebar {
+  width: 350px;
+  background-color: #DEDEDE;
+  color: #313732;
+  display: flex;
+  flex-direction: column;
 }
 
-.chat-input {
+.sidebar-header {
+  padding: 16px;
+  background-color: #f26101;
+}
+
+.user-profile {
   display: flex;
   align-items: center;
+  gap: 12px;
 }
 
-.input {
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #313732;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-container {
+  padding: 8px;
+}
+
+.search-field {
+  width: 100%;
+}
+
+.search-field ::ng-deep .mat-form-field-outline {
+  background-color: #313732;
+}
+
+.chat-list {
   flex: 1;
-  margin-right: 10px;
+  overflow-y: auto;
+}
+
+.chat-item {
+  display: flex;
+  padding: 12px;
+  gap: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.chat-item:hover {
+  background-color: rgba(242, 97, 1, 0.1);
+}
+
+.chat-item.active {
+  background-color: rgba(242, 97, 1, 0.2);
+}
+
+.chat-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #313732;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-info {
+  flex: 1;
+}
+
+.chat-name {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.chat-preview {
+  font-size: 0.9em;
+  color: #313732;
+  opacity: 0.8;
+}
+
+.chat-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #313732;
+}
+
+.chat-header {
+  padding: 16px;
+  background-color: #DEDEDE;
+  color: #313732;
+}
+
+.chat-contact {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.contact-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #313732;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-name {
+  font-weight: 500;
+}
+
+.contact-status {
+  font-size: 0.9em;
+  opacity: 0.8;
+}
+
+.messages-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  background-color: #313732;
+}
+
+.messages-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.message {
+  max-width: 65%;
+  display: flex;
+  flex-direction: column;
+}
+
+.message.sent {
+  align-self: flex-end;
+}
+
+.message.received {
+  align-self: flex-start;
+}
+
+.message-content {
+  padding: 8px 12px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.message.sent .message-content {
+  background-color: #f26101;
+  color: #DEDEDE;
+}
+
+.message.received .message-content {
+  background-color: #DEDEDE;
+  color: #313732;
+}
+
+.message-text {
+  margin-bottom: 4px;
+}
+
+.message-time {
+  font-size: 0.75em;
+  opacity: 0.8;
+  text-align: right;
+}
+
+.message-input {
+  padding: 16px;
+  background-color: #DEDEDE;
+}
+
+.input-field {
+  width: 100%;
+}
+
+.input-field ::ng-deep .mat-form-field-outline {
+  background-color: #313732;
+}
+
+.input-field ::ng-deep .mat-form-field-flex {
+  background-color: #313732;
+}
+
+.input-field ::ng-deep .mat-form-field-infix {
+  padding: 8px 0;
+}
+
+.input-field ::ng-deep .mat-form-field-suffix {
+  color: #f26101;
 }

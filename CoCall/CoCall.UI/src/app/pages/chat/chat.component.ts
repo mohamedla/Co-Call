@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './chat.component.css'
 })
 export class ChatComponent implements OnInit {
-  activeChats = [{ name: 'User1' }, { name: 'User2' }];
+  activeChats = [{ id: 1, name: 'User1', messages: [{ sender: 'User1', text: 'Hello!' }, { sender: 'Me', text: 'Hi there!' }] }, { id: 2, name: 'User2', messages: [{ sender: 'User2', text: 'Hello!' }, { sender: 'Me', text: 'Hi there!' }] }];
   selectedChat: any = null;
   newMessage = '';
   userName = 'User1';

@@ -10,7 +10,7 @@ export class VideoComponent {
   isMicMuted = false;
   isCameraOff = false;
   isAudioMuted = false;
-  activeCalls = [{ name: 'User1' }, { name: 'User2' }];
+  activeCalls = [{ id: 1, name: 'User1' }, { id: 2, name: 'User2' }];
   activeCall: any = null;
 
   onSearch(event: any) {
