@@ -16,6 +16,7 @@ import { ChatComponent } from './pages/chat/chat.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { VideoComponent } from './pages/video/video.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,11 @@ import { VideoComponent } from './pages/video/video.component';
     MatListModule,
     ToastrModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    provideHttpClient()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+//provideHttpClient(withInterceptorsFromDi())

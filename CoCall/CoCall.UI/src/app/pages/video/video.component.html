@@ -11,15 +11,26 @@
     </mat-list>
   </div>
   <div class="large-side" *ngIf="activeCall">
-    <div class="media-controls">
-      <button mat-raised-button color="primary" (click)="toggleMic()">Mic</button>
-      <button mat-raised-button color="primary" (click)="toggleSpeaker()">Speaker</button>
-      <button mat-raised-button color="primary" (click)="toggleCamera()">Camera</button>
-      <button mat-raised-button color="warn" (click)="hangUp()">Hang Up</button>
-    </div>
     <div class="video-container">
-      <div class="my-video">My Camera</div>
-      <div class="other-video">Other Participant</div>
+      <div class="remote-video-container">
+        <div class="remote-video">Other Participant</div>
+      </div>
+      <div class="local-video">My Camera</div>
+    </div>
+
+    <div class="media-controls">
+      <button [class.active]="!isMicMuted" (click)="toggleMic()" title="Toggle Microphone">
+        <i class="material-icons">{{ isMicMuted ? 'mic_off' : 'mic' }}</i>
+      </button>
+      <button [class.active]="!isAudioMuted"  (click)="toggleSpeaker()" title="Toggle Audio Output">
+        <i class="material-icons">{{ isAudioMuted ? 'volume_off' : 'volume_up' }}</i>
+      </button>
+      <button [class.active]="!isCameraOff" (click)="toggleCamera()" title="Toggle Camera">
+        <i class="material-icons">{{ isCameraOff ? 'videocam_off' : 'videocam' }}</i>
+      </button>
+      <button (click)="hangUp()">
+        <i class="material-icons">call_end</i>
+      </button>
     </div>
   </div>
 </div>

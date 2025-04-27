@@ -7,6 +7,9 @@ import { Component } from '@angular/core';
   styleUrl: './video.component.css'
 })
 export class VideoComponent {
+  isMicMuted = false;
+  isCameraOff = false;
+  isAudioMuted = false;
   activeCalls = [{ name: 'User1' }, { name: 'User2' }];
   activeCall: any = null;
 
@@ -20,15 +23,33 @@ export class VideoComponent {
   }
 
   toggleMic() {
-    console.log('Toggle mic');
+    this.isMicMuted = !this.isMicMuted;
+    // const localStream = this.callService.getLocalStream();
+    // if (localStream) {
+    //   const audioTracks = localStream.getAudioTracks();
+    //   audioTracks.forEach(track => {
+    //     track.enabled = !this.isMicMuted;
+    //   });
+    // }
   }
 
   toggleSpeaker() {
-    console.log('Toggle speaker');
+    this.isAudioMuted = !this.isAudioMuted;
+    // if (this.remoteVideo?.nativeElement) {
+    //   // Control the volume of the remote video element
+    //   this.remoteVideo.nativeElement.volume = this.isAudioMuted ? 0 : 1;
+    // }
   }
 
   toggleCamera() {
-    console.log('Toggle camera');
+    this.isCameraOff = !this.isCameraOff;
+    // const localStream = this.callService.getLocalStream();
+    // if (localStream) {
+    //   const videoTracks = localStream.getVideoTracks();
+    //   videoTracks.forEach(track => {
+    //     track.enabled = !this.isCameraOff;
+    //   });
+    // }
   }
 
   hangUp() {

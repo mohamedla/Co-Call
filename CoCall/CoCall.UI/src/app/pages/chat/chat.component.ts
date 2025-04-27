@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { UserService } from './../../services/user.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-chat',
@@ -6,13 +7,35 @@ import { Component } from '@angular/core';
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
-export class ChatComponent {
+export class ChatComponent implements OnInit {
   activeChats = [{ name: 'User1' }, { name: 'User2' }];
   selectedChat: any = null;
   newMessage = '';
+  userName = 'User1';
+
+  constructor(private userService: UserService) {}
+
+  ngOnInit(): void {
+    this.userService.verifyUser(this.userName).subscribe(
+      (response) => {
+        console.log('verify results:', response);
+      },
+      (error) => {
+        console.error('Error verifying:', error);
+      }
+    );
+  }
 
   onSearch(event: any) {
     const query = event.target.value;
+    this.userService.search(query).subscribe(
+      (response) => {
+        console.log('Search results:', response);
+      },
+      (error) => {
+        console.error('Error searching:', error);
+      }
+    );
     console.log('Search query:', query);
   }
 
