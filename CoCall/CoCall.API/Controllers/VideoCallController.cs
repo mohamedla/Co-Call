@@ -15,7 +15,7 @@ namespace CoCall.API.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateCall(string callerId, string calleeId)
+        public async Task<IActionResult> CreateCall(int callerId, int calleeId)
         {
             var call = new VideoCall
             {

@@ -1,9 +1,18 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using CoCall.Data;
+using CoCall.Data.Models;
+using Microsoft.AspNetCore.SignalR;
 
 namespace CoCall.API.Hubs
 {
     public class TextChatHub: Hub
     {
+        private readonly CoCallDbContext _context;
+
+        public TextChatHub(CoCallDbContext context)
+        {
+            _context = context;
+        }
+
         public override async Task OnConnectedAsync()
         {
             var userId = Context.GetHttpContext()?.Request.Query["userId"].ToString();
@@ -32,10 +41,18 @@ namespace CoCall.API.Hubs
             await base.OnDisconnectedAsync(exception);
         }
 
-        public async Task SendMessage(string sender, string receiver, string message)
+        public async Task SendMessage(int sender, int receiver, string message)
         {
+            _context.TextChatMessages.Add(new TextChatMessage
+            {
+                SenderId = sender,
+                ReceiverId = receiver,
+                Message = message,
+                Timestamp = DateTime.UtcNow
+            });
+            await _context.SaveChangesAsync();
             // Send message to the specific receiver
-            await Clients.Group(receiver).SendAsync("ReceiveMessage", sender, message);
+            await Clients.Group(receiver.ToString()).SendAsync("ReceiveMessage", sender, message);
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,13 +22,41 @@ namespace CoCall.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>().HasIndex( u => u.UserName).IsUnique();
-            modelBuilder.Entity<User>().HasKey( u => u.UserName);
+            modelBuilder.Entity<User>().HasKey( u => u.Id);
 
             modelBuilder.Entity<User>().HasData(
-                new User { UserName = "johndoe", Name = "John Doe" },
-                new User { UserName = "janedoe", Name = "Jane Doe" },
-                new User { UserName = "johnsmith", Name = "John Smith" }
+                new User { Id = 1, UserName = "johndoe", Name = "John Doe" },
+                new User { Id = 2, UserName = "janedoe", Name = "Jane Doe" },
+                new User { Id = 3, UserName = "johnsmith", Name = "John Smith" }
             );
+
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.SenderTextChatMessags)
+                .WithOne(e => e.Sender)
+                .OnDelete(DeleteBehavior.NoAction)
+                .HasForeignKey(e => e.SenderId)
+                .HasPrincipalKey(e => e.Id);
+
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.ReceiverTextChatMessags)
+                .WithOne(e => e.Receiver)
+                .OnDelete(DeleteBehavior.NoAction)
+                .HasForeignKey(e => e.ReceiverId)
+                .HasPrincipalKey(e => e.Id);
+
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.CallerVideoCalls)
+                .WithOne(e => e.Caller)
+                .OnDelete(DeleteBehavior.NoAction)
+                .HasForeignKey(e => e.CallerId)
+                .HasPrincipalKey(e => e.Id);
+
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.CalleeVideoCalls)
+                .WithOne(e => e.Callee)
+                .OnDelete(DeleteBehavior.NoAction)
+                .HasForeignKey(e => e.CalleeId)
+                .HasPrincipalKey(e => e.Id);
         }
     }
 }
