@@ -5,14 +5,20 @@
       <span>CoCall</span>
     </div>
     <nav mat-tab-nav-bar [tabPanel]="tabPanel" class="nav-tabs">
-      <a mat-tab-link routerLink="/chat" routerLinkActive="active">Chat</a>
-      <a mat-tab-link routerLink="/video" routerLinkActive="active">Video</a>
+      <a mat-tab-link routerLink="/chat" routerLinkActive="active"><span class="page-tab">Chat</span></a>
+      <a mat-tab-link routerLink="/video" routerLinkActive="active"><span class="page-tab">Video</span></a>
     </nav>
   </div>
 
   <span class="spacer"></span>
 
   <div class="header-right">
+    <!-- Theme toggle button -->
+    <button mat-icon-button (click)="toggleTheme()" class="theme-toggle-btn" [attr.aria-label]="isDarkTheme ? 'Switch to light theme' : 'Switch to dark theme'">
+      <mat-icon>{{ isDarkTheme ? 'light_mode' : 'dark_mode' }}</mat-icon>
+    </button>
+
+    <!-- Notification button and panel -->
     <div class="notification-container">
       <button mat-icon-button (click)="toggleNotifications()" class="notification-btn">
         <mat-icon>notifications</mat-icon>
@@ -36,8 +42,8 @@
               <div class="notification-text">{{ notification.message }}</div>
               <div class="notification-time">{{ notification.timestamp | date:'dd/MM/yyyy HH:mm' }}</div>
             </div>
-            <div>
-              <button mat-icon-button (click)="markAsRead(notification)">
+            <div class="notification-actions">
+              <button mat-icon-button (click)="markAsRead(notification)" class="mark-read-btn">
                 <mat-icon>check</mat-icon>
               </button>
             </div>

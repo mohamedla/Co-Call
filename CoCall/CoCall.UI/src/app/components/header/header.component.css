@@ -1,6 +1,6 @@
 .app-header {
-  background-color: #DEDEDE;
-  color: #313732;
+  background-color: var(--foreground-color);
+  color: var(--text-on-dark);
   padding: 0 16px;
   height: 64px;
   display: flex;
@@ -23,7 +23,7 @@
 }
 
 .logo mat-icon {
-  color: #f26101;
+  color: var(--primary-color);
 }
 
 .nav-tabs {
@@ -31,18 +31,18 @@
 }
 
 .nav-tabs ::ng-deep .mat-tab-link {
-  color: #313732;
+  color: var(--text-on-dark);
   opacity: 0.7;
   min-width: 100px;
 }
 
 .nav-tabs ::ng-deep .mat-tab-link.active {
   opacity: 1;
-  color: #f26101;
+  color: var(--primary-color);
 }
 
 .nav-tabs ::ng-deep .mat-ink-bar {
-  background-color: #f26101;
+  background-color: var(--primary-color);
 }
 
 .spacer {
@@ -55,20 +55,20 @@
   gap: 16px;
 }
 
-.notification-container {
-  position: relative;
+.theme-toggle-btn, .notification-btn {
+  color: var(--text-on-dark);
 }
 
-.notification-btn {
-  color: #313732;
+.notification-container {
+  position: relative;
 }
 
 .notification-badge {
   position: absolute;
   top: 0;
   right: 0;
-  background-color: #f26101;
-  color: #DEDEDE;
+  background-color: var(--primary-color);
+  color: var(--text-on-dark);
   border-radius: 50%;
   width: 18px;
   height: 18px;
@@ -83,11 +83,14 @@
   top: 100%;
   right: 0;
   width: 360px;
-  background-color: #313732;
+  max-height: 450px;
+  background-color: var(--foreground-color);
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px var(--shadow-color);
   margin-top: 8px;
   z-index: 1000;
+  display: flex;
+  flex-direction: column;
 }
 
 .notification-header {
@@ -100,13 +103,14 @@
 
 .notification-header h3 {
   margin: 0;
-  color: #DEDEDE;
+  color: var(--text-on-dark);
   font-size: 1.1rem;
 }
 
 .notification-list {
-  max-height: 400px;
+  max-height: 350px;
   overflow-y: auto;
+  flex: 1;
 }
 
 .notification-item {
@@ -115,43 +119,64 @@
   gap: 12px;
   border-bottom: 1px solid rgba(222, 222, 222, 0.05);
   transition: background-color 0.2s;
+  position: relative;
 }
 
 .notification-item:hover {
-  background-color: rgba(242, 97, 1, 0.1);
+  background-color: var(--hover-color);
 }
 
 .notification-item.unread {
-  background-color: rgba(242, 97, 1, 0.2);
+  background-color: var(--active-color);
 }
 
 .notification-avatar {
   min-width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #DEDEDE;
+  background-color: var(--background-color);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #313732;
+  color: var(--text-on-light);
 }
 
 .notification-content {
   flex: 1;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .notification-text {
-  color: #DEDEDE;
+  color: var(--text-on-dark);
   margin-bottom: 4px;
-  max-width: 200px;
+  max-width: 260px;
+  white-space: normal;
+  line-height: 1.4;
 }
 
 .notification-time {
   font-size: 0.8rem;
-  color: #DEDEDE;
+  color: var(--text-on-dark);
   opacity: 0.8;
 }
 
-.notification-item button {
-  color: #f26101;
+.notification-actions {
+  display: flex;
+  align-items: flex-start;
+}
+
+.mark-read-btn {
+  color: var(--primary-color);
+  height: 30px;
+  width: 30px;
+  line-height: 30px;
+}
+
+.mark-read-btn mat-icon {
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+  line-height: 18px;
 }

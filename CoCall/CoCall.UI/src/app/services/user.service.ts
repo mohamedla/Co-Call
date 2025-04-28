@@ -18,4 +18,12 @@ export class UserService {
   search(query: string): Observable<any> {
     return this.http.get(`${this.baseURL}/search`, { params: { query }});
   }
+
+  getActiveChats(id: number): Observable<any> {
+    return this.http.get(`${this.baseURL}/getactivechats/${id}`,);
+  }
+
+  getActiveRooms(id: number): Observable<any> {
+    return this.http.get(`${this.baseURL}/getactiverooms/${id}`);
+  }
 }

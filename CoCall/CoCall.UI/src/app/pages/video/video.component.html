@@ -1,6 +1,6 @@
-<div class="video-container">
+<div class="main-container">
   <!-- Left sidebar with contacts -->
-  <div class="video-sidebar">
+  <div class="sidebar">
     <div class="sidebar-header">
       <div class="user-profile">
         <div class="avatar">
@@ -12,40 +12,40 @@
 
     <div class="search-container">
       <mat-form-field appearance="outline" class="search-field">
-        <mat-label>Search contacts</mat-label>
+        <mat-label><span class="page-tab">Search contacts</span></mat-label>
         <input matInput (input)="onSearch($event)" />
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
     </div>
 
-    <div class="contacts-list">
-      <div class="contact-item" *ngFor="let call of activeCalls" (click)="startCall(call)" [class.active]="activeCall?.id === call.id">
-        <div class="contact-avatar">
+    <div class="content-list">
+      <div class="list-item" *ngFor="let call of activeCalls" (click)="startCall(call)" [class.active]="activeCall?.id === call.id">
+        <div class="avatar">
           <mat-icon>person</mat-icon>
         </div>
-        <div class="contact-info">
-          <div class="contact-name">{{ call.name }}</div>
-          <div class="contact-status">Available for video call</div>
+        <div class="list-info">
+          <div class="list-name">{{ call.name }}</div>
+          <div class="list-status">Available for video call</div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Main video area -->
-  <div class="video-main" *ngIf="activeCall">
-    <div class="video-header">
-      <div class="call-info">
-        <div class="call-avatar">
+  <div class="main-content" *ngIf="activeCall">
+    <div class="content-header">
+      <div class="user-profile">
+        <div class="avatar">
           <mat-icon>person</mat-icon>
         </div>
-        <div class="call-details">
-          <div class="call-name">{{ activeCall.name }}</div>
-          <div class="call-status">In call</div>
+        <div class="list-info">
+          <div class="list-name">{{ activeCall.name }}</div>
+          <div class="list-status">In call</div>
         </div>
       </div>
     </div>
 
-    <div class="video-content">
+    <div class="content-body video-content">
       <div class="remote-video-container">
         <div class="remote-video">
           <div class="video-placeholder">
@@ -62,19 +62,21 @@
       </div>
     </div>
 
-    <div class="call-controls">
-      <button class="control-btn" [class.active]="!isMicMuted" (click)="toggleMic()" title="Toggle Microphone">
-        <mat-icon>{{ isMicMuted ? 'mic_off' : 'mic' }}</mat-icon>
-      </button>
-      <button class="control-btn" [class.active]="!isAudioMuted" (click)="toggleSpeaker()" title="Toggle Audio Output">
-        <mat-icon>{{ isAudioMuted ? 'volume_off' : 'volume_up' }}</mat-icon>
-      </button>
-      <button class="control-btn" [class.active]="!isCameraOff" (click)="toggleCamera()" title="Toggle Camera">
-        <mat-icon>{{ isCameraOff ? 'videocam_off' : 'videocam' }}</mat-icon>
-      </button>
-      <button class="control-btn end-call" (click)="hangUp()" title="End Call">
-        <mat-icon>call_end</mat-icon>
-      </button>
+    <div class="content-footer">
+      <div class="call-controls">
+        <button class="button control-btn" [class.active]="!isMicMuted" (click)="toggleMic()" title="Toggle Microphone">
+          <mat-icon>{{ isMicMuted ? 'mic_off' : 'mic' }}</mat-icon>
+        </button>
+        <button class="button control-btn" [class.active]="!isAudioMuted" (click)="toggleSpeaker()" title="Toggle Audio Output">
+          <mat-icon>{{ isAudioMuted ? 'volume_off' : 'volume_up' }}</mat-icon>
+        </button>
+        <button class="button control-btn" [class.active]="!isCameraOff" (click)="toggleCamera()" title="Toggle Camera">
+          <mat-icon>{{ isCameraOff ? 'videocam_off' : 'videocam' }}</mat-icon>
+        </button>
+        <button class="button control-btn end-call" (click)="hangUp()" title="End Call">
+          <mat-icon>call_end</mat-icon>
+        </button>
+      </div>
     </div>
   </div>
 </div>

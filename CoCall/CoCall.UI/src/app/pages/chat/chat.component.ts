@@ -1,3 +1,4 @@
+import { User } from '../../models/user';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -5,20 +6,38 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-chat',
   standalone: false,
   templateUrl: './chat.component.html',
-  styleUrl: './chat.component.css'
+  styleUrl: './chat.component.css',
 })
 export class ChatComponent implements OnInit {
-  activeChats = [{ id: 1, name: 'User1', messages: [{ sender: 'User1', text: 'Hello!' }, { sender: 'Me', text: 'Hi there!' }] }, { id: 2, name: 'User2', messages: [{ sender: 'User2', text: 'Hello!' }, { sender: 'Me', text: 'Hi there!' }] }];
+  activeChats = [
+    {
+      id: 1,
+      name: 'User1',
+      messages: [
+        { sender: 'User1', text: 'Hello!' },
+        { sender: 'Me', text: 'Hi there!' },
+      ],
+    },
+    {
+      id: 2,
+      name: 'User2',
+      messages: [
+        { sender: 'User2', text: 'Hello!' },
+        { sender: 'Me', text: 'Hi there!' },
+      ],
+    },
+  ];
   selectedChat: any = null;
   newMessage = '';
   userName = 'User1';
+  user: User;
 
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     this.userService.verifyUser(this.userName).subscribe(
       (response) => {
-        console.log('verify results:', response);
+        this.user = response;
       },
       (error) => {
         console.error('Error verifying:', error);
@@ -44,8 +63,8 @@ export class ChatComponent implements OnInit {
       name: chat.name,
       messages: [
         { sender: 'User1', text: 'Hello!' },
-        { sender: 'Me', text: 'Hi there!' }
-      ]
+        { sender: 'Me', text: 'Hi there!' },
+      ],
     };
   }
 

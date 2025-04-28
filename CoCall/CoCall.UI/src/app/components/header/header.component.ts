@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { NotificationHubService } from '../../services/notification-hub.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -15,21 +15,28 @@ interface Notification {
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
-  notifications: Notification[] = [
-    { id: 1, message: 'New message from User1', timestamp: new Date(), isRead: false },
-    { id: 2, message: 'New comment on your post', timestamp: new Date(), isRead: false },
-    { id: 3, message: 'User2 liked your photo', timestamp: new Date(), isRead: false }
-  ];
-  userId = '12345'; // Example user ID
+export class HeaderComponent implements OnInit {
+  notificationCount = 0;
   showNotificationPanel = false;
+  notifications: Notification[] = [];
+  isDarkTheme = false;
+  userId = '12345'; // Example user ID
 
   constructor(
     private toastr: ToastrService,
-    private notificationHubService: NotificationHubService
+    private notificationHubService: NotificationHubService,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit() {
+    // Check if dark theme was previously selected
+    const savedTheme = localStorage.getItem('theme');
+    this.isDarkTheme = savedTheme === 'dark';
+
+    if (this.isDarkTheme) {
+      this.renderer.addClass(document.body, 'dark-theme');
+    }
+
     this.notificationHubService.startConnection(this.userId);
     this.notificationHubService.onReceiveNotification((message: string) => {
       this.notifications.push({
@@ -64,5 +71,17 @@ export class HeaderComponent {
       notification.isRead = true;
     });
     this.toastr.success('All notifications marked as read.', 'Success', { timeOut: 3000 });
+  }
+
+  toggleTheme(): void {
+    this.isDarkTheme = !this.isDarkTheme;
+
+    if (this.isDarkTheme) {
+      this.renderer.addClass(document.body, 'dark-theme');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      this.renderer.removeClass(document.body, 'dark-theme');
+      localStorage.setItem('theme', 'light');
+    }
   }
 }

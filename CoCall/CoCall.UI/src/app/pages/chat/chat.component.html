@@ -1,6 +1,6 @@
-<div class="chat-container">
+<div class="main-container">
   <!-- Left sidebar with chat list -->
-  <div class="chat-sidebar">
+  <div class="sidebar">
     <div class="sidebar-header">
       <div class="user-profile">
         <div class="avatar">
@@ -12,30 +12,30 @@
 
     <div class="search-container">
       <mat-form-field appearance="outline" class="search-field">
-        <mat-label>Search or start new chat</mat-label>
+        <mat-label><span class="page-tab">Search or start new chat</span></mat-label>
         <input matInput (input)="onSearch($event)" />
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
     </div>
 
-    <div class="chat-list">
-      <div class="chat-item" *ngFor="let chat of activeChats" (click)="openChat(chat)" [class.active]="selectedChat?.id === chat.id">
-        <div class="chat-avatar">
+    <div class="content-list">
+      <div class="list-item" *ngFor="let chat of activeChats" (click)="openChat(chat)" [class.active]="selectedChat?.id === chat.id">
+        <div class="avatar chat-avatar">
           <mat-icon>person</mat-icon>
         </div>
-        <div class="chat-info">
-          <div class="chat-name">{{ chat.name }}</div>
-          <div class="chat-preview">{{ chat.messages[chat.messages.length - 1]?.text || 'No messages' }}</div>
+        <div class="list-info">
+          <div class="list-name">{{ chat.name }}</div>
+          <div class="list-preview">{{ chat.messages[chat.messages.length - 1]?.text || 'No messages' }}</div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Main chat area -->
-  <div class="chat-main" *ngIf="selectedChat">
-    <div class="chat-header">
-      <div class="chat-contact">
-        <div class="contact-avatar">
+  <div class="main-content" *ngIf="selectedChat">
+    <div class="content-header">
+      <div class="user-profile">
+        <div class="avatar">
           <mat-icon>person</mat-icon>
         </div>
         <div class="contact-info">
@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <div class="messages-container">
+    <div class="content-body messages-container">
       <div class="messages-wrapper">
         <div *ngFor="let message of selectedChat.messages"
              class="message"
@@ -59,7 +59,7 @@
       </div>
     </div>
 
-    <div class="message-input">
+    <div class="content-footer">
       <mat-form-field appearance="outline" class="input-field">
         <input matInput [(ngModel)]="newMessage" placeholder="Type a message" />
         <button mat-icon-button matSuffix (click)="sendMessage()">
