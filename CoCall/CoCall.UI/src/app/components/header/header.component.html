@@ -22,7 +22,7 @@
     <div class="notification-container">
       <button mat-icon-button (click)="toggleNotifications()" class="notification-btn">
         <mat-icon>notifications</mat-icon>
-        <span *ngIf="notifications.length > 0" class="notification-badge">{{ notifications.length }}</span>
+        <span *ngIf="getNumberOfUnreadNotifications() > 0" class="notification-badge">{{ getNumberOfUnreadNotifications() }}</span>
       </button>
 
       <div class="notification-panel" *ngIf="showNotificationPanel">

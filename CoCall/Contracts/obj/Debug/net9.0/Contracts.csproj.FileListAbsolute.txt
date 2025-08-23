@@ -1,0 +1,12 @@
+D:\WorkSpace\Repos\GitHup\Co-Call\CoCall\Contracts\bin\Debug\net9.0\Contracts.deps.json
+D:\WorkSpace\Repos\GitHup\Co-Call\CoCall\Contracts\bin\Debug\net9.0\Contracts.dll
+D:\WorkSpace\Repos\GitHup\Co-Call\CoCall\Contracts\bin\Debug\net9.0\Contracts.pdb
+D:\WorkSpace\Repos\GitHup\Co-Call\CoCall\Contracts\obj\Debug\net9.0\Contracts.GeneratedMSBuildEditorConfig.editorconfig
+D:\WorkSpace\Repos\GitHup\Co-Call\CoCall\Contracts\obj\Debug\net9.0\Contracts.AssemblyInfoInputs.cache
+D:\WorkSpace\Repos\GitHup\Co-Call\CoCall\Contracts\obj\Debug\net9.0\Contracts.AssemblyInfo.cs
+D:\WorkSpace\Repos\GitHup\Co-Call\CoCall\Contracts\obj\Debug\net9.0\Contracts.csproj.CoreCompileInputs.cache
+D:\WorkSpace\Repos\GitHup\Co-Call\CoCall\Contracts\obj\Debug\net9.0\Contracts.sourcelink.json
+D:\WorkSpace\Repos\GitHup\Co-Call\CoCall\Contracts\obj\Debug\net9.0\Contracts.dll
+D:\WorkSpace\Repos\GitHup\Co-Call\CoCall\Contracts\obj\Debug\net9.0\refint\Contracts.dll
+D:\WorkSpace\Repos\GitHup\Co-Call\CoCall\Contracts\obj\Debug\net9.0\Contracts.pdb
+D:\WorkSpace\Repos\GitHup\Co-Call\CoCall\Contracts\obj\Debug\net9.0\ref\Contracts.dll

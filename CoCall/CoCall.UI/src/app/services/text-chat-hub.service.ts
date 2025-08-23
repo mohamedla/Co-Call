@@ -31,7 +31,7 @@ export class TextChatHubService {
     this.connection.on('ReceiveMessage', callback);
   }
 
-  async sendMessage(sender: string, receiver: string, message: string): Promise<void> {
+  async sendMessage(sender: number, receiver: number, message: string): Promise<void> {
     await this.connection.invoke('SendMessage', sender, receiver, message);
   }
 }

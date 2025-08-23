@@ -1,7 +1,9 @@
 using System;
 using CoCall.API.Hubs;
 using CoCall.API.Services;
+using CoCall.Business.Managers;
 using CoCall.Data;
+using Contracts;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -32,6 +34,8 @@ builder.Services.AddCors(options =>
             .SetIsOriginAllowed(_ => true); // Accept any origin for now
     });
 });
+
+builder.Services.AddScoped<ILoggerManager, LoggerManager>(); // Configure Logger Service
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 

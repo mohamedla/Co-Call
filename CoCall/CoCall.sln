@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35818.85 d17.13
+VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoCall.API", "CoCall.API\CoCall.API.csproj", "{EE078A83-BF4D-41BB-9640-E132AC1A8313}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoCall.Business", "CoCall.Business\CoCall.Business.csproj", "{88242589-8448-4F5B-B841-E2EDD71F9E82}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "CoCall.UI", "CoCall.UI\CoCall.UI.esproj", "{140F8E3B-1CD1-D822-215C-409AA7EF758B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{B44DBE61-C4E6-4CC9-90CA-27D0248E9292}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{140F8E3B-1CD1-D822-215C-409AA7EF758B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{140F8E3B-1CD1-D822-215C-409AA7EF758B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{140F8E3B-1CD1-D822-215C-409AA7EF758B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{B44DBE61-C4E6-4CC9-90CA-27D0248E9292}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B44DBE61-C4E6-4CC9-90CA-27D0248E9292}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B44DBE61-C4E6-4CC9-90CA-27D0248E9292}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B44DBE61-C4E6-4CC9-90CA-27D0248E9292}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -41,6 +41,7 @@
 
 .search-container {
   padding: 8px;
+  position: relative;
 }
 
 .search-field {
@@ -214,4 +215,94 @@
 
 .input-field ::ng-deep .mat-form-field-suffix {
   color: var(--primary-color);
+}
+
+/* Search Results Styles */
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--foreground-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  z-index: 10;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 4px;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  gap: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-bottom: 1px solid rgba(var(--background-color-rgb), 0.1);
+}
+
+.search-result-item:hover {
+  background-color: var(--hover-color);
+}
+
+.search-avatar {
+  width: 40px;
+  height: 40px;
+}
+
+.search-info {
+  flex: 1;
+}
+
+.search-name {
+  font-weight: 500;
+  color: var(--text-on-dark);
+}
+
+.search-username {
+  font-size: 0.85em;
+  color: var(--text-on-dark);
+  opacity: 0.7;
+}
+
+.search-action {
+  color: var(--primary-color);
+}
+
+/* Unread message badge */
+.unread-badge {
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+}
+
+/* Read status indicators */
+.read-status {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.read-icon {
+  color: var(--primary-color);
+  font-size: 14px;
+  height: 14px;
+  width: 14px;
+}
+
+.unread-icon {
+  color: var(--text-on-dark);
+  opacity: 0.5;
+  font-size: 14px;
+  height: 14px;
+  width: 14px;
 }

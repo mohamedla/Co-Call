@@ -41,8 +41,8 @@ namespace CoCall.API.Controllers
             }
 
             var users = await _context.Users
-                .Where(u => u.Name.Contains(query))
-                .Select(u => new { u.UserName, u.Name })
+                .Where(u => u.Name.Contains(query) || u.UserName.Contains(query))
+                .Select(u => _mapper.Map<UserDto>(u))
                 .ToListAsync();
 
             return Ok(users);
@@ -68,7 +68,7 @@ namespace CoCall.API.Controllers
             var users = _context.Users
                 .Include(List => List.SenderTextChatMessags)
                 .Include(List => List.ReceiverTextChatMessags)
-                .Where(u => u.Id == id && u.SenderTextChatMessags.Any(tc => tc.SenderId == id) && u.ReceiverTextChatMessags.Any( tc => tc.ReceiverId == id))
+                .Where(u => u.Id == id && (u.SenderTextChatMessags.Any(tc => tc.SenderId == id) || u.ReceiverTextChatMessags.Any(tc => tc.ReceiverId == id)))
                 .Select(u => new ActiveChats()
                 {
                     Id = u.Id,
@@ -76,7 +76,7 @@ namespace CoCall.API.Controllers
                     Name = u.Name,
                     Messages = u.SenderTextChatMessags
                         .Union(u.ReceiverTextChatMessags)
-                        .Where(tc => (tc.SenderId == id && tc.ReceiverId == u.Id) || (tc.SenderId == u.Id && tc.ReceiverId == id))
+                        //.Where(tc => (tc.SenderId == id && tc.ReceiverId == u.Id) || (tc.SenderId == u.Id && tc.ReceiverId == id))
                         .OrderByDescending(tc => tc.Timestamp)
                         .Select(tc => new TextChatMessageDto()
                         {

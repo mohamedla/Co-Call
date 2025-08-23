@@ -15,7 +15,7 @@ namespace CoCall.API.Hubs
 
         public override async Task OnConnectedAsync()
         {
-            var userId = Context.GetHttpContext()?.Request.Query["userId"].ToString();
+            var userId = Context.GetHttpContext()?.Request.Query["access_token"].ToString();
 
             if (!string.IsNullOrEmpty(userId))
             {
@@ -29,7 +29,7 @@ namespace CoCall.API.Hubs
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            var userId = Context.GetHttpContext()?.Request.Query["userId"].ToString();
+            var userId = Context.GetHttpContext()?.Request.Query["access_token"].ToString();
 
             if (!string.IsNullOrEmpty(userId))
             {

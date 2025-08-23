@@ -1,13 +1,7 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { NotificationHubService } from '../../services/notification-hub.service';
 import { ToastrService } from 'ngx-toastr';
-
-interface Notification {
-  id: number;
-  message: string;
-  timestamp: Date;
-  isRead: boolean;
-};
+import { Notification } from '../../models/Notification';
 
 @Component({
   selector: 'app-header',
@@ -18,7 +12,14 @@ interface Notification {
 export class HeaderComponent implements OnInit {
   notificationCount = 0;
   showNotificationPanel = false;
-  notifications: Notification[] = [];
+  notifications: Notification[] = [
+    {
+      id: 1,
+      message: 'Welcome to the app!',
+      timestamp: new Date(),
+      isRead: false
+    }
+  ];
   isDarkTheme = false;
   userId = '12345'; // Example user ID
 
@@ -61,9 +62,13 @@ export class HeaderComponent implements OnInit {
     this.toastr.info('Show notifications list here.', 'Notifications');
   }
 
+  getNumberOfUnreadNotifications(): number {
+    return this.notifications.filter(notification => !notification.isRead).length;
+  }
+
   markAsRead(notification: Notification) {
     notification.isRead = true;
-    this.toastr.success('All notifications marked as read.', 'Success', { timeOut: 3000 });
+    this.toastr.success('Notification marked as read.', 'Success', { timeOut: 3000 });
   }
 
   markAllAsRead() {
