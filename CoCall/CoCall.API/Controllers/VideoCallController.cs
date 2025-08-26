@@ -1,4 +1,5 @@
 ﻿using CoCall.Data;
+using CoCall.Data.DTOs;
 using CoCall.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,12 +16,12 @@ namespace CoCall.API.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateCall(int callerId, int calleeId)
+        public async Task<IActionResult> CreateCall(VideoCallCrearDto dto)
         {
             var call = new VideoCall
             {
-                CallerId = callerId,
-                CalleeId = calleeId,
+                CallerId = dto.CallerId,
+                CalleeId = dto.CalleeId,
                 CreatedAt = DateTime.UtcNow,
                 ExpireAt = DateTime.UtcNow.AddHours(1),
                 IsActive = true

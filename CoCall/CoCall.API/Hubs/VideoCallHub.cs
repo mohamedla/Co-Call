@@ -12,6 +12,7 @@ namespace CoCall.API.Hubs
         {
             _context = context;
         }
+
         public async Task EnterCall(int callId)
         {
             var call = await _context.VideoCalls.FirstOrDefaultAsync(c => c.Id == callId);
@@ -77,6 +78,34 @@ namespace CoCall.API.Hubs
         {
             // Notify the callee about the video call invitation
             await Clients.User(callee).SendAsync("ReceiveCallInvitation", caller);
+        }
+
+        public override async Task OnConnectedAsync()
+        {
+            var userId = Context.GetHttpContext()?.Request.Query["access_token"].ToString();
+
+            if (!string.IsNullOrEmpty(userId))
+            {
+                // Associate the connection with the user
+                await Groups.AddToGroupAsync(Context.ConnectionId, userId);
+                Console.WriteLine($"User {userId} connected with ConnectionId {Context.ConnectionId}");
+            }
+
+            await base.OnConnectedAsync();
+        }
+
+        public override async Task OnDisconnectedAsync(Exception? exception)
+        {
+            var userId = Context.GetHttpContext()?.Request.Query["access_token"].ToString();
+
+            if (!string.IsNullOrEmpty(userId))
+            {
+                // Remove the connection from the user group
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, userId);
+                Console.WriteLine($"User {userId} disconnected with ConnectionId {Context.ConnectionId}");
+            }
+
+            await base.OnDisconnectedAsync(exception);
         }
     }
 }

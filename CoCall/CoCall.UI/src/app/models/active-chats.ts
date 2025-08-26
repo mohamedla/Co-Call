@@ -7,3 +7,9 @@ export interface ActiveChats {
   messages : ChatMessage[];
   unreadCount?: number; // Optional property to track unread messages
 }
+
+export interface ActiveCall {
+  id : number;
+  userName: string;
+  name: string;
+}

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,8 @@ export class VideoCallService {
 
   constructor(private http:HttpClient) { }
 
-  async createCall(callerId: string, calleeId: string): Promise<any> {
-    return await this.http.post(`${this.baseURL}/create`, { callerId, calleeId });
+  createCall(callerId: number, calleeId: number): Promise<any> {
+    return lastValueFrom(this.http.post(`${this.baseURL}/create`, { callerId, calleeId }));
   }
 
   async verifyParticipant(callId: number, userId: string): Promise<any> {

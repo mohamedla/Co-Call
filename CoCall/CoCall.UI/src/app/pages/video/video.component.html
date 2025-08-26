@@ -16,6 +16,22 @@
         <input matInput (input)="onSearch($event)" />
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
+
+      <!-- Search Results Dropdown -->
+      <div class="search-results" *ngIf="searchResults.length > 0">
+        <div class="search-result-item" *ngFor="let result of searchResults" (click)="createNewCall(result)">
+          <div class="avatar search-avatar">
+            <mat-icon>person</mat-icon>
+          </div>
+          <div class="search-info">
+            <div class="search-name">{{ result.name }}</div>
+            <div class="search-username">{{ '@'+result.userName }}</div>
+          </div>
+          <div class="search-action">
+            <mat-icon>videocam</mat-icon>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="content-list">

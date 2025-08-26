@@ -76,7 +76,6 @@ namespace CoCall.API.Controllers
                     Name = u.Name,
                     Messages = u.SenderTextChatMessags
                         .Union(u.ReceiverTextChatMessags)
-                        //.Where(tc => (tc.SenderId == id && tc.ReceiverId == u.Id) || (tc.SenderId == u.Id && tc.ReceiverId == id))
                         .OrderByDescending(tc => tc.Timestamp)
                         .Select(tc => new TextChatMessageDto()
                         {
@@ -92,16 +91,33 @@ namespace CoCall.API.Controllers
             return Ok(users);
         }
 
-        //[HttpGet("getactiverooms/{id}")]
-        //public async Task<IActionResult> GetActiveRooms(int id)
-        //{
-        //    var users = _context.Users
-        //        .Include(List => List.ActiveTextChat)
-        //        .Where(u => u.ActiveVideoCalls.Any(tc => (tc.CalleeId == id || tc.CalleeId == id) && tc.IsActive == true))
-        //        .Select(u => _mapper.Map<UserDto>(u))
-        //        .ToList();
+        [HttpGet("getactivecalls/{id}")]
+        public async Task<IActionResult> GetActiveCalls(int id)
+        {
+            var users = _context.Users
+                .Include(List => List.CallerVideoCalls)
+                .Include(List => List.CalleeVideoCalls)
+                .Where(u => u.Id == id && (u.CallerVideoCalls.Any(tc => tc.CallerId == id) || u.CalleeVideoCalls.Any(tc => tc.CalleeId == id)))
+                .Select(u => new ActiveCall()
+                {
+                    Id = u.Id,
+                    UserName = u.UserName,
+                    Name = u.Name,
+                })
+                .ToList();
 
-        //    return Ok(users);
-        //}
+            var calls = _context.VideoCalls
+                .Include(call => call.Caller)
+                .Include(call => call.Callee)
+                .Where(c => c.IsActive && (c.CalleeId == id || c.CallerId == id))
+                .Select(c => new ActiveCall
+                {
+                    Id = c.Id,
+                    UserName = c.CallerId == id? c.Callee.UserName : c.Caller.UserName,
+                    Name = c.CallerId == id? c.Callee.Name : c.Caller.Name
+                });
+
+            return Ok(calls);
+        }
     }
 }

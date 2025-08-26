@@ -23,7 +23,7 @@ export class UserService {
     return this.http.get(`${this.baseURL}/getactivechats/${id}`,);
   }
 
-  getActiveRooms(id: number): Observable<any> {
-    return this.http.get(`${this.baseURL}/getactiverooms/${id}`);
+  getActiveCalls(id: number): Observable<any> {
+    return this.http.get(`${this.baseURL}/getactivecalls/${id}`);
   }
 }

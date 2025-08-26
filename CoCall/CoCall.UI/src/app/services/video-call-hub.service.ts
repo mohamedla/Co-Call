@@ -9,13 +9,19 @@ export class VideoCallHubService {
   private connection: signalR.HubConnection;
 
   constructor() {
-    this.connection = new signalR.HubConnectionBuilder()
-      .withUrl(`${environment.baseURL}/hubs/videocall`)
-      .withAutomaticReconnect()
-      .build();
+    // this.connection = new signalR.HubConnectionBuilder()
+    //   .withUrl(`${environment.baseURL}/hubs/videocall`)
+    //   .withAutomaticReconnect()
+    //   .build();
   }
 
-  async startConnection(): Promise<void> {
+  async startConnection(userId: string): Promise<void> {
+    this.connection = new signalR.HubConnectionBuilder()
+      .withUrl(`${environment.baseURL}/hubs/videocall`, {
+        accessTokenFactory: () => userId // Pass userId as a token or query string
+      })
+      .withAutomaticReconnect()
+      .build();
     try {
       await this.connection.start();
       console.log('VideoCallHub connection started');
