@@ -14,6 +14,8 @@ namespace CoCall.Data
         public DbSet<TextChatMessage> TextChatMessages { get; set; }
         public DbSet<VideoCall> VideoCalls { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<ErrorDetails> ErrorsDetails { get; set; }
 
         public CoCallDbContext(DbContextOptions<CoCallDbContext> options) : base(options) { }
 
@@ -53,10 +55,18 @@ namespace CoCall.Data
 
             modelBuilder.Entity<User>()
                 .HasMany(e => e.CalleeVideoCalls)
-                .WithOne(e => e.Callee)
+                .WithOne(v => v.Callee)
                 .OnDelete(DeleteBehavior.NoAction)
-                .HasForeignKey(e => e.CalleeId)
-                .HasPrincipalKey(e => e.Id);
+                .HasForeignKey(v => v.CalleeId)
+                .HasPrincipalKey(v => v.Id);
+
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.Notifications)
+                .WithOne(noti => noti.user)
+                .OnDelete(DeleteBehavior.NoAction)
+                .HasForeignKey(noti => noti.UserId)
+                .HasPrincipalKey(noti => noti.Id);
+
         }
     }
 }

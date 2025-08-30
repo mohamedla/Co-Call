@@ -12,4 +12,5 @@ export interface ActiveCall {
   id : number;
   userName: string;
   name: string;
+  IsCaller: boolean;
 }

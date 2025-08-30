@@ -1,3 +1,5 @@
+
+<app-header></app-header>
 <div class="main-container">
   <!-- Left sidebar with contacts -->
   <div class="sidebar">
@@ -35,7 +37,7 @@
     </div>
 
     <div class="content-list">
-      <div class="list-item" *ngFor="let call of activeCalls" (click)="startCall(call)" [class.active]="activeCall?.id === call.id">
+      <div class="list-item" *ngFor="let call of activeCalls" (click)="joinCall(call)" [class.active]="activeCall?.id === call.id">
         <div class="avatar">
           <mat-icon>person</mat-icon>
         </div>
@@ -48,14 +50,14 @@
   </div>
 
   <!-- Main video area -->
-  <div class="main-content" *ngIf="activeCall">
+  <div [className]="hideActiveCall() ? 'main-content d-none' : 'main-content'">
     <div class="content-header">
       <div class="user-profile">
         <div class="avatar">
           <mat-icon>person</mat-icon>
         </div>
         <div class="list-info">
-          <div class="list-name">{{ activeCall.name }}</div>
+          <div class="list-name">{{ activeCall?.name }}</div>
           <div class="list-status">In call</div>
         </div>
       </div>
@@ -65,15 +67,17 @@
       <div class="remote-video-container">
         <div class="remote-video">
           <div class="video-placeholder">
-            <mat-icon>videocam</mat-icon>
-            <span>Remote Video</span>
+            <!-- <mat-icon>videocam</mat-icon>
+            <span>Remote Video</span> -->
+            <video #remoteVideo autoplay playsinline class="w-100 h-100"></video>
           </div>
         </div>
       </div>
       <div class="local-video">
         <div class="video-placeholder">
-          <mat-icon>videocam</mat-icon>
-          <span>My Camera</span>
+          <!-- <mat-icon>videocam</mat-icon>
+          <span>My Camera</span> -->
+          <video #localVideo autoplay playsinline muted class="local-video-thumb video-container"></video>
         </div>
       </div>
     </div>
@@ -88,6 +92,12 @@
         </button>
         <button class="button control-btn" [class.active]="!isCameraOff" (click)="toggleCamera()" title="Toggle Camera">
           <mat-icon>{{ isCameraOff ? 'videocam_off' : 'videocam' }}</mat-icon>
+        </button>
+        <button class="button control-btn" [class.active]="!isRecording" (click)="toggleRecording()" title="Recording">
+          <mat-icon>{{ isRecording ? 'stop_circle' : 'mode_standby' }}</mat-icon>
+        </button>
+        <button class="button control-btn" [class.active]="!isRecording" (click)="toggleAudioRecording()" title="Audio Recording">
+          <mat-icon>{{ isAudioRecording ? 'adaptive_audio_mic_off' : 'adaptive_audio_mic' }}</mat-icon>
         </button>
         <button class="button control-btn end-call" (click)="hangUp()" title="End Call">
           <mat-icon>call_end</mat-icon>

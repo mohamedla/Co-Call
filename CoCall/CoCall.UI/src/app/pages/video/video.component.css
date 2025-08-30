@@ -314,3 +314,12 @@ button:not(.active) {
 .search-action {
   color: var(--primary-color);
 }
+
+.video-container{
+  width: inherit;
+  height: inherit;
+}
+
+.d-none{
+  display: none !important;
+}

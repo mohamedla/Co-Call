@@ -27,7 +27,7 @@ export class TextChatHubService {
     }
   }
 
-  onReceiveMessage(callback: (sender: string, message: string) => void): void {
+  onReceiveMessage(callback: (senderId: number, message: string) => void): void {
     this.connection.on('ReceiveMessage', callback);
   }
 

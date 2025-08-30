@@ -26,4 +26,8 @@ export class UserService {
   getActiveCalls(id: number): Observable<any> {
     return this.http.get(`${this.baseURL}/getactivecalls/${id}`);
   }
+
+  getNotifications(id: number): Observable<any> {
+    return this.http.get(`${this.baseURL}/getNotification/${id}`);
+  }
 }

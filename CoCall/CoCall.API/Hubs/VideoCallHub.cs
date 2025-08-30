@@ -1,4 +1,6 @@
 ﻿using CoCall.Data;
+using CoCall.Data.DTOs.WebRTC;
+using CoCall.Data.Models;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
@@ -74,10 +76,30 @@ namespace CoCall.API.Hubs
             await _context.SaveChangesAsync();
         }
 
-        public async Task SendCallInvitation(string caller, string callee)
+        public async Task SendCallInvitation(int callId)
         {
-            // Notify the callee about the video call invitation
-            await Clients.User(callee).SendAsync("ReceiveCallInvitation", caller);
+            var call = _context.VideoCalls.Include(c => c.Callee).Include(c => c.Caller).First(c => c.Id == callId);
+            if (call == null) return;
+
+            await Clients.Group(call.Callee.UserName).SendAsync("ReceiveCallInvitation", call.Caller.Name);
+        }
+
+        public async Task SendOffer(int callId, RtcSessionDescriptionDto offer)
+        {
+            await Clients.OthersInGroup($"Call-{callId}")
+                .SendAsync("ReceiveOffer", offer);
+        }
+
+        public async Task SendAnswer(int callId, RtcSessionDescriptionDto answer)
+        {
+            await Clients.OthersInGroup($"Call-{callId}")
+                .SendAsync("ReceiveAnswer", answer);
+        }
+
+        public async Task SendIceCandidate(int callId, RtcIceCandidateDto candidate)
+        {
+            await Clients.OthersInGroup($"Call-{callId}")
+                .SendAsync("ReceiveIceCandidate", candidate);
         }
 
         public override async Task OnConnectedAsync()

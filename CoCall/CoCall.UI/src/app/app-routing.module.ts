@@ -7,6 +7,7 @@ const routes: Routes = [
   {
     path: '',
     component: ChatComponent,
+    pathMatch: 'full'
   },
   {
     path: 'chat',

@@ -12,3 +12,8 @@
 /CoCall/CoCall.API/bin/Debug/net9.0
 /CoCall/CoCall.UI/obj/Debug
 /CoCall/Contracts/bin/Debug/net9.0
+/APIPublish
+/CoCall/.vs/ProjectEvaluation
+/CoCall/CoCall.API/bin/Release/net9.0
+/CoCall/CoCall.Business/bin/Release/net9.0
+/CoCall/CoCall.Data/bin/Release/net9.0

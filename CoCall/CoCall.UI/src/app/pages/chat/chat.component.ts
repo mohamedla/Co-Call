@@ -5,6 +5,7 @@ import { TextChatService } from '../../services/text-chat.service';
 import { TextChatHubService } from '../../services/text-chat-hub.service';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -47,8 +48,13 @@ export class ChatComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private userService: UserService,
     private chatService: TextChatService,
-    private chatHubService: TextChatHubService
-  ) {}
+    private chatHubService: TextChatHubService,
+    private activeroute: ActivatedRoute
+  ) {
+    this.activeroute.queryParams.subscribe(params => {
+      this.userName = params['username'] || this.userName;
+    });
+  }
 
   ngOnInit(): void {
     this.userService.verifyUser(this.userName).subscribe(
@@ -89,9 +95,9 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.toastr.success('Connected to chat service');
 
         // Set up message receiving
-        this.chatHubService.onReceiveMessage((sender, message) => {
+        this.chatHubService.onReceiveMessage((senderId, message) => {
           // Find the chat with this sender
-          const chat = this.activeChats.find(c => c.userName === sender);
+          const chat = this.activeChats.find(c => c.id === senderId);
 
           if (chat) {
             // Add message to chat
@@ -245,8 +251,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         isRead: false
       };
 
-      // Add to UI
-      this.selectedChat.messages.push(message);
+
 
       // Send via SignalR
       this.chatHubService.sendMessage(
@@ -254,6 +259,8 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.selectedChat.id,
         this.newMessage
       ).then(() => {
+        // Add to UI
+        this.selectedChat.messages.push(message);
         console.log('Message sent successfully');
       }).catch(error => {
         this.toastr.error('Failed to send message');

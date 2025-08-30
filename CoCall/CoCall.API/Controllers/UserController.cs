@@ -68,7 +68,7 @@ namespace CoCall.API.Controllers
             var users = _context.Users
                 .Include(List => List.SenderTextChatMessags)
                 .Include(List => List.ReceiverTextChatMessags)
-                .Where(u => u.Id == id && (u.SenderTextChatMessags.Any(tc => tc.SenderId == id) || u.ReceiverTextChatMessags.Any(tc => tc.ReceiverId == id)))
+                .Where(u => u.Id != id && (u.SenderTextChatMessags.Any(tc => tc.ReceiverId == id) || u.ReceiverTextChatMessags.Any(tc => tc.SenderId == id)))
                 .Select(u => new ActiveChats()
                 {
                     Id = u.Id,
@@ -76,13 +76,15 @@ namespace CoCall.API.Controllers
                     Name = u.Name,
                     Messages = u.SenderTextChatMessags
                         .Union(u.ReceiverTextChatMessags)
-                        .OrderByDescending(tc => tc.Timestamp)
+                        .OrderBy(tc => tc.Timestamp)
                         .Select(tc => new TextChatMessageDto()
                         {
+                            Id = tc.Id,
                             SenderId = tc.SenderId,
                             ReceiverId = tc.ReceiverId,
                             Message = tc.Message,
-                            Timestamp = tc.Timestamp
+                            Timestamp = tc.Timestamp,
+                            IsRead = tc.IsRead
                         })
                         .ToList()
                 })
@@ -94,18 +96,6 @@ namespace CoCall.API.Controllers
         [HttpGet("getactivecalls/{id}")]
         public async Task<IActionResult> GetActiveCalls(int id)
         {
-            var users = _context.Users
-                .Include(List => List.CallerVideoCalls)
-                .Include(List => List.CalleeVideoCalls)
-                .Where(u => u.Id == id && (u.CallerVideoCalls.Any(tc => tc.CallerId == id) || u.CalleeVideoCalls.Any(tc => tc.CalleeId == id)))
-                .Select(u => new ActiveCall()
-                {
-                    Id = u.Id,
-                    UserName = u.UserName,
-                    Name = u.Name,
-                })
-                .ToList();
-
             var calls = _context.VideoCalls
                 .Include(call => call.Caller)
                 .Include(call => call.Callee)
@@ -114,10 +104,23 @@ namespace CoCall.API.Controllers
                 {
                     Id = c.Id,
                     UserName = c.CallerId == id? c.Callee.UserName : c.Caller.UserName,
-                    Name = c.CallerId == id? c.Callee.Name : c.Caller.Name
+                    Name = c.CallerId == id? c.Callee.Name : c.Caller.Name,
+                    IsCaller = c.CallerId == id
                 });
 
             return Ok(calls);
+        }
+
+        [HttpGet("getNotification/{id}")]
+        public async Task<IActionResult> GetNotification(int id)
+        {
+            var notifications = _context.Users
+                .Include(List => List.Notifications)
+                .Where(u => u.Id == id && u.Notifications.Any(n => !n.IsReaded))
+                .Select(u => u.Notifications)
+                .ToList();
+
+            return Ok(notifications);
         }
     }
 }

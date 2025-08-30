@@ -15,5 +15,6 @@ namespace CoCall.Data.Models
         public virtual List<VideoCall> CalleeVideoCalls { get; set; }
         public virtual List<TextChatMessage> SenderTextChatMessags { get; set; }
         public virtual List<TextChatMessage> ReceiverTextChatMessags { get; set; }
+        public virtual List<Notification> Notifications { get; set; }
     }
 }

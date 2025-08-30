@@ -19,6 +19,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<CoCallDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CoCall") ?? throw new InvalidOperationException("Can't found CoCall Connection String While Working With Repository."), b => b.MigrationsAssembly("CoCall.API")));
+builder.Services.AddScoped<NotificationHub>();
 
 builder.Services.AddHostedService<TextMessageCleanupService>();
 builder.Services.AddHostedService<CallExpiryService>();

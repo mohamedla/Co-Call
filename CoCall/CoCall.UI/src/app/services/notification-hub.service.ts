@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { environment } from '../../environments/environment';
+import { Notification } from '../models/Notification';
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +11,10 @@ export class NotificationHubService {
 
   constructor() {}
 
-  async startConnection(userId: string): Promise<void> {
+  async startConnection(userName: string): Promise<void> {
       this.connection = new signalR.HubConnectionBuilder()
         .withUrl(`${environment.baseURL}/hubs/notification`, {
-          accessTokenFactory: () => userId // Pass userId as a token or query string
+          accessTokenFactory: () => userName // Pass userId as a token or query string
         })
         .withAutomaticReconnect()
         .build();
@@ -26,17 +27,25 @@ export class NotificationHubService {
       }
     }
 
-  onReceiveNotification(callback: (message: string) => void): void {
+  onReceiveNotification(callback: (noti: Notification) => void): void {
+    this.playNotificationSound();
     this.connection.on('ReceiveNotification', callback);
   }
 
-  private audio = new Audio('assets/notification.wav');
-
-  playNotificationSound() {
-    this.audio.play();
+  readNotification(notificationId: number): void {
+    this.connection.invoke('ReadNotification', notificationId);
   }
 
-  async sendNotification(userId: string, message: string): Promise<void> {
-    await this.connection.invoke('SendNotification', userId, message);
+
+  playNotificationSound() {
+    let audio = new Audio('assets/notification.wav');
+    // audio.muted = false;
+    // audio.muted = true;
+    audio.autoplay = true;
+    audio.play();
+  }
+
+  async sendNotification(userId: string, title: string, description: string): Promise<void> {
+    await this.connection.invoke('SendNotification', userId, title, description);
   }
 }

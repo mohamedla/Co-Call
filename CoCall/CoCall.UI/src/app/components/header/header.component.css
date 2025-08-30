@@ -148,11 +148,21 @@
   word-wrap: break-word;
 }
 
+.notification-title {
+  color: var(--text-on-dark);
+  margin-bottom: 4px;
+  max-width: 260px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .notification-text {
   color: var(--text-on-dark);
   margin-bottom: 4px;
   max-width: 260px;
   white-space: normal;
+  font-size: 0.9rem;
   line-height: 1.4;
 }
 

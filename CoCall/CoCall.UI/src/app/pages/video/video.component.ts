@@ -1,10 +1,12 @@
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
-import { Component, OnInit } from '@angular/core';
 import { VideoCallHubService } from '../../services/video-call-hub.service';
 import { ActiveCall } from '../../models/active-chats';
 import { VideoCallService } from '../../services/video-call.service';
+import { ActivatedRoute } from '@angular/router';
+import { NotificationHubService } from '../../services/notification-hub.service';
 
 @Component({
   selector: 'app-video',
@@ -12,63 +14,142 @@ import { VideoCallService } from '../../services/video-call.service';
   templateUrl: './video.component.html',
   styleUrl: './video.component.css'
 })
-export class VideoComponent implements OnInit {
+export class VideoComponent implements OnInit, AfterViewInit {
+  @ViewChild('localVideo',  { static: false }) localVideoRef!: ElementRef<HTMLVideoElement>;
+  @ViewChild('remoteVideo', { static: false }) remoteVideoRef!: ElementRef<HTMLVideoElement>;
+
   isMicMuted = false;
   isCameraOff = false;
   isAudioMuted = false;
-  activeCalls : ActiveCall[] = [{ id: 1, userName: 'User1', name: 'User 1' }, { id: 2, userName: 'User2', name: 'User 2' }];
-  activeCall: any = null;
+  isRecording = false;
+  isAudioRecording = false;
+
+  activeCalls : ActiveCall[] = [];
+  activeCall: ActiveCall | null = null;
+
   searchResults: User[] = [];
   searchTimeout: any;
+
   userName = 'johnsmith';
   user: User;
 
   constructor(
     private userService: UserService,
     private toastr: ToastrService,
-    private videoChatHub: VideoCallHubService,
-    private videoServ: VideoCallService
-  ) {}
-
-  ngOnInit(): void {
-    this.userService.verifyUser(this.userName).subscribe(
-      (response) => {
-        this.user = response;
-        // Initialize SignalR connection
-        this.initializeSignalRConnection();
-
-        // Load active chats
-        this.userService.getActiveCalls(this.user.id).subscribe(
-          (response) => {
-            this.activeCalls = response;
-          },
-          (error) => {
-            this.toastr.error('Error getting active chats');
-            console.error('Error getting active chats:', error);
-          }
-        );
-      },
-      (error) => {
-        console.error('Error verifying:', error);
-      }
-    );
+    private hub: VideoCallHubService,
+    private videoServ: VideoCallService,
+    private activeroute: ActivatedRoute,
+    private notification: NotificationHubService
+  ) {
+    this.activeroute.queryParams.subscribe(params => {
+      this.userName = params['username'] || this.userName;
+    });
   }
 
-  private initializeSignalRConnection(): void {
-    this.videoChatHub.startConnection(this.user.id.toString())
-      .then(() => {
-        this.toastr.success('Connected to video service');
-
-        // Set up call receiving
-        this.videoChatHub.onReceiveCallInvitation((caller: string) => {
-          this.toastr.info(`Incoming call from ${caller}`);
-          // Here you can implement logic to show incoming call UI
-        });
-      })
-      .catch(err => {
-        this.toastr.error('Could not connect to video service');
-        console.error('Error connecting to VideoHub:', err);
+  async ngOnInit() {
+    this.user = await this.userService.verifyUser(this.userName).toPromise();
+    await this.hub.startConnection(this.user.userName.toString()).then(() => {
+      // Set up call receiving
+      this.hub.onReceiveCallInvitation((callerName: string) => {
+        this.toastr.info(`Incoming call from ${callerName}`);
       });
+
+      this.toastr.success('Connected to video service')
+    }).catch(err => {
+      this.toastr.error('Could not connect to video service')
+      console.error('Error connecting to VideoHub:', err)
+    });
+
+
+    //Load active calls list
+    this.userService.getActiveCalls(this.user.id).subscribe({
+      next: (calls) => this.activeCalls = calls,
+      error: () => this.toastr.error('Error getting active calls')
+    });
+  }
+
+  async ngAfterViewInit() {
+    this.hub.attachVideoElements(this.localVideoRef, this.remoteVideoRef);
+  }
+
+  hideActiveCall(): boolean {
+    return this.activeCall === null;
+  }
+
+  async startCall(call: ActiveCall) {
+    this.activeCall = call;
+    // enter as caller (this will create offer)
+    await this.hub.enterCall(call.id, true);
+    this.toastr.success(call.userName === this.user.userName? `Calling ${call.name}...`: 'Joined call');
+  }
+
+  joinCall(call: ActiveCall) {
+    this.activeCall = call;
+    if(!call.IsCaller){
+      this.acceptIncoming(call);
+    }else{
+      this.startCall(call);
+    }
+  }
+
+  async acceptIncoming(call: ActiveCall) {
+    this.activeCall = { id: call.id, userName: call.userName, name: call.name, IsCaller: false };
+
+    this.notification.sendNotification(call.userName, "Call Acceptance", this.user.name + " accept your call");
+    await this.hub.enterCall(call.id, false);
+    this.toastr.info('Joined call');
+  }
+
+  toggleMic() {
+    this.isMicMuted = !this.isMicMuted;
+    this.hub.setMicEnabled(!this.isMicMuted);
+  }
+
+  toggleCamera() {
+    this.isCameraOff = !this.isCameraOff;
+    this.hub.setCameraEnabled(!this.isCameraOff);
+  }
+
+  toggleSpeaker() {
+    this.isAudioMuted = !this.isAudioMuted;
+    this.hub.setRemoteVolume(this.isAudioMuted ? 0 : 1);
+  }
+
+  toggleRecording() {
+    this.isRecording = !this.isRecording;
+    if(this.isRecording){
+      this.toastr.info('Recording started');
+      this.hub.startRecording();
+    }else{
+      this.toastr.info('Recording stopped');
+      this.hub.stopRecording();
+    }
+  }
+
+  toggleAudioRecording() {
+    this.isAudioRecording = !this.isAudioRecording;
+    if(this.isAudioRecording){
+      if(this.hub.startAudioRecording()){
+        this.toastr.info('Recording started');
+      }else{
+        this.toastr.error('Cannot start audio recording. Remote stream not ready yet.');
+        this.isAudioRecording = false;
+      }
+
+    }else{
+      this.toastr.info('Recording stopped');
+      this.hub.stopAudioRecording();
+    }
+  }
+
+  async hangUp() {
+    await this.hub.leaveCall();
+    this.activeCall = null;
+  }
+
+  async endCall() {
+    await this.hub.endCall(this.user.userName);
+    this.activeCall = null;
   }
 
   onSearch(event: any) {
@@ -104,25 +185,23 @@ export class VideoComponent implements OnInit {
 
     if (existingCall) {
       // If call exists, start it
+      if(existingCall.IsCaller) this.hub.sendCallInvitation(existingCall.id);
+      this.notification.sendNotification(existingCall.userName, "Call Invitation", existingCall.name + " Send you a call invitation again");
       this.startCall(existingCall);
     } else {
-      // Create new call entry
-      // const newCall = {
-      //   id: this.activeCalls.length + 1,
-      //   userName: user.id.toString(),
-      //   name: user.name
-      // };
-
       this.videoServ.createCall(this.user.id, user.id).then(
         (response) => {
           const newCall = {
             id: response.id,
             userName: user.userName,
-            name: user.name
+            name: user.name,
+            IsCaller: true
           };
           // Add to active calls
           this.activeCalls.push(newCall);
-
+          // Send Call Invetation
+          this.hub.sendCallInvitation(response.id);
+          this.notification.sendNotification(response.userName, "Call Invitation", response.name + " Send you a call invitation.");
           // Start the call
           this.startCall(newCall);
         },
@@ -135,55 +214,5 @@ export class VideoComponent implements OnInit {
 
     // Clear search results
     this.searchResults = [];
-  }
-
-  startCall(call: any) {
-    this.activeCall = call;
-    this.videoChatHub.sendCallInvitation(this.user.userName, call.userName).then(
-      () => {
-        this.videoChatHub.enterCall(call.id);
-        this.toastr.success(`Calling ${call.name}...`);
-      },
-      (error) => {
-        this.toastr.error('Error sending call invitation');
-        console.error('Error sending call invitation:', error);
-      }
-    );
-  }
-
-  toggleMic() {
-    this.isMicMuted = !this.isMicMuted;
-    // const localStream = this.callService.getLocalStream();
-    // if (localStream) {
-    //   const audioTracks = localStream.getAudioTracks();
-    //   audioTracks.forEach(track => {
-    //     track.enabled = !this.isMicMuted;
-    //   });
-    // }
-  }
-
-  toggleSpeaker() {
-    this.isAudioMuted = !this.isAudioMuted;
-    // if (this.remoteVideo?.nativeElement) {
-    //   // Control the volume of the remote video element
-    //   this.remoteVideo.nativeElement.volume = this.isAudioMuted ? 0 : 1;
-    // }
-  }
-
-  toggleCamera() {
-    this.isCameraOff = !this.isCameraOff;
-    // const localStream = this.callService.getLocalStream();
-    // if (localStream) {
-    //   const videoTracks = localStream.getVideoTracks();
-    //   videoTracks.forEach(track => {
-    //     track.enabled = !this.isCameraOff;
-    //   });
-    // }
-  }
-
-  hangUp() {
-    this.activeCall = null;
-    // In a real app, you would end the call here
-    // For example: this.callService.endCall();
   }
 }
